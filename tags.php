@@ -113,7 +113,7 @@ if($id || $name) {
 	$navtitle = $metakeywords = $metadescription = $taglang;
 	$viewthreadtags = 100;
 	$tagarray = array();
-	$query = C::t('#swzz_portal_tags#swzz_common_tag')->fetch_all_by_status(0, '', $viewthreadtags, 0, 0, 'DESC');
+	$query = C::t('#swzz_portal_tags#swzz_common_tag')->fetch_all_by_status(0, '', $viewthreadtags, 0, 0, '');
 	foreach($query as $result) {
 		$tagarray[] = $result;
 	}

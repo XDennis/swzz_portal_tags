@@ -35,7 +35,7 @@ class table_swzz_common_tag extends discuz_table
 		if($returncount) {
 			return DB::result_first("SELECT count(*) FROM %t WHERE $statussql $namesql", $data);
 		}
-		return DB::fetch_all("SELECT * FROM %t WHERE $statussql $namesql ORDER BY ".DB::order('tagid', $order)." ".DB::limit($startlimit, $count), $data);
+		return DB::fetch_all("SELECT * FROM %t WHERE $statussql $namesql ORDER BY ".DB::order('tagname', $order)." ".DB::limit($startlimit, $count), $data);
 	}
 
 	public function insert($tagname, $status = 0) {

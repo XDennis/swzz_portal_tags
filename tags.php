@@ -12,10 +12,11 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $id = intval($_GET['id']);
-$type = trim($_GET['type']);
+$type = trim($_GET['type']);//虽然代码按照type来编写，但未做check，只是确保article是正确的
 $name = trim($_GET['name']);
 $page = intval($_GET['page']);
 if($type == 'countitem') {
+	//获取tagid对应的文章数目
 	$num = 0;
 	if($id) {
 		$num = C::t('#swzz_portal_tags#swzz_common_tagitem')->count_by_tagid($id);
@@ -25,16 +26,20 @@ if($type == 'countitem') {
 }
 $taglang = lang('tag/template', 'tag');
 if($id || $name) {
+	//有参数tagid，或者tagname的情况
 
+	//分页信息在文章分类未启用
 	$tpp = 20;
 	$page = max(1, intval($page));
 	$start_limit = ($page - 1) * $tpp;
 	if($id) {
+		//按照tagid，获得这个tag的tagid，tagname，status
 		$tag = C::t('#swzz_portal_tags#swzz_common_tag')->fetch_info($id);
 	} else {
 		if(!preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $name) || strlen($name) > 20) {
 			showmessage('parameters_error');
 		}
+		//按照tagname，获得这个tag的tagid，tagname，status
 		$name = addslashes($name);
 		$tag = C::t('#swzz_portal_tags#swzz_common_tag')->fetch_info(0, $name);
 	}
@@ -80,7 +85,7 @@ if($id || $name) {
 			$multipage = multi($count, $tpp, $page, "misc.php?mod=tag&id=$tag[tagid]&type=blog");
 		}
 	} else {
-		$shownum = 20;
+		$shownum = 0;
 
 		$tidarray = $threadlist = array();
 		$query = C::t('#swzz_portal_tags#swzz_common_tagitem')->select($id, 0, 'tid', '', '', $shownum);
@@ -107,13 +112,26 @@ if($id || $name) {
 
 	}
 
+	//具体的tag对应的内容列表页
 	include_once template('tag/tagitem');
 
 } else {
+	//获取所有的tag列表
 	$navtitle = $metakeywords = $metadescription = $taglang;
 	$viewthreadtags = 100;
 	$tagarray = array();
-	$query = C::t('#swzz_portal_tags#swzz_common_tag')->fetch_all_by_status(0, '', $viewthreadtags, 0, 0, '');
+	//$query = C::t('#swzz_portal_tags#swzz_common_tag')->fetch_all_by_status(0, '', $viewthreadtags, 0, 0, '');
+	//$query = DB::fetch_all("SELECT * FROM ".DB::table("pre_swzz_common_tag")." WHERE tagid in (select tagid from ".DB::table("pre_swzz_common_tagitem").") ORDER BY tagname");
+	//the above codes can't be allowed by dz, this like select * (select *)	
+
+	$tagidarray = array();
+	$query = DB::fetch_all("SELECT distinct tagid FROM ".DB::table("swzz_common_tagitem"));
+	foreach($query as $result) {
+			$tagidarray[$result['tagid']] = $result['tagid'];
+	}
+
+	$query = DB::fetch_all("SELECT * FROM ".DB::table("swzz_common_tag")." where tagid in (".dimplode($tagidarray).") ORDER BY tagname");
+
 	foreach($query as $result) {
 		$tagarray[] = $result;
 	}

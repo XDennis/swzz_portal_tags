@@ -152,11 +152,11 @@ class plugin_swzz_portal_tags_portal extends plugin_swzz_portal_tags {
 		if(!empty($tagids)) {
 			foreach(C::t('#swzz_portal_tags#swzz_common_tag')->get_byids($tagids) as$tags) {
 				$articlelist[$tags['tagid']] = $tags;
-				$htmltags .= '    <a href="tag.php?id='.$tags['tagid'].'">'.$tags['tagname'].'</a>    ';
+				$htmltags .= '<li><a href="tag.php?id='.$tags['tagid'].'" class="list-group-item" target="_blank">'.$tags['tagname'].'</a></li>';
 			}
 		}
 
-		return '<div><b>Tag±Í«©:</b>'.$htmltags.'</div>';
+		return '<div class="taglist"><ul class="list-inline"><li><a class="list-group-item active">±Í«©£∫</a></li>'.$htmltags.'</ul></div>';
     }
 
 }

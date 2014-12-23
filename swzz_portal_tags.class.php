@@ -154,9 +154,9 @@ class plugin_swzz_portal_tags_portal extends plugin_swzz_portal_tags {
 				$articlelist[$tags['tagid']] = $tags;
 				$htmltags .= '<li><a href="tag.php?id='.$tags['tagid'].'" class="list-group-item" target="_blank">'.$tags['tagname'].'</a></li>';
 			}
+			return '<div class="taglist"><ul class="list-inline"><li><a class="list-group-item active">±Í«©£∫</a></li>'.$htmltags.'</ul></div>';		
 		}
-
-		return '<div class="taglist"><ul class="list-inline"><li><a class="list-group-item active">±Í«©£∫</a></li>'.$htmltags.'</ul></div>';
+			return '';
     }
 
 }

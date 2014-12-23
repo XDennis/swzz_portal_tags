@@ -156,7 +156,7 @@ class plugin_swzz_portal_tags_portal extends plugin_swzz_portal_tags {
 			}
 			return '<div class="taglist"><ul class="list-inline"><li><a class="list-group-item active">±Í«©£∫</a></li>'.$htmltags.'</ul></div>';		
 		}
-			return '';
+			return '<p><br /><br /></p>';
     }
 
 }

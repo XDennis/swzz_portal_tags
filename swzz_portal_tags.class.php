@@ -53,7 +53,7 @@ class plugin_swzz_portal_tags {
 		$tagcount = 0;
 		foreach($tagarray as $tagname) {
 			$tagname = trim($tagname);
-			if(preg_match('/^([\x7f-\xff_-]|\w|\s){3,20}$/', $tagname)) {
+			if(preg_match('/^([\x7f-\xff_-]|\w|\s){2,20}$/', $tagname)) {
 				$status = $idtype != 'uid' ? 0 : 3;
 				$result = C::t('#swzz_portal_tags#swzz_common_tag')->get_bytagname($tagname, $idtype);
 				if($result['tagid']) {
